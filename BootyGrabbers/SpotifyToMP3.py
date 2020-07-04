@@ -14,8 +14,6 @@ class spotifyToYoutube():
         self.names=[]
         self.artists=[]
         counter=1
-        #/html/body/div[3]/div/div[2]/div[4]/div[1]/div/div[2]/div/div/div[2]/section[1]/div[4]/section/ol/div[1]/div/li/div[2]/div/div[1]
-        #/html/body/div[3]/div/div[2]/div[4]/div[1]/div/div[2]/div/div/div[2]/section[1]/div[4]/section/ol/div[2]/div/li/div[2]/div/div[1]
         Nelements=[]
         Aelements=[]
         while True:
@@ -50,27 +48,21 @@ class spotifyToYoutube():
                 time.sleep(.5)
             self.driver.find_element_by_xpath('/html/body/div[2]/div[1]/div[1]/div[3]/a[1]').click()
             self.driver.find_element_by_xpath('/html/body/div[2]/div[1]/div[1]/div[3]/a[3]').click()
-    def waitUntilDone(self):
-        dl_wait=True
-        nfiles=None
-        while dl_wait:
-            time.sleep(1)
-            dl_wait = False
-            files = os.listdir(self.directory)
-            if nfiles and len(files) != nfiles:
-                dl_wait = True
-
-            for fname in files:
-                if fname.endswith('.crdownload'):
-                    dl_wait = True
-        self.driver.close()
-        print('Done!')
 
 config = cp.ConfigParser()
 config.read("SpotifyToMP3.ini")
-STY=spotifyToYoutube(webdriver.Firefox(),config)
-if __name__ =="__main__":
-	STY.getStuff()
-	STY.getLinks()
-	STY.downloadLinks()
-	#STY.waitUntilDone()
+try:
+    if bool(config['SETTINGS']['firefox']):
+	STY=spotifyToYoutube(webdriver.Firefox(),config)
+    elif bool(config['SETTINGS']['chrome']):
+	STY=spotifyToYoutube(webdriver.Chrome(),config)
+    else:
+	print("Please change your .ini file and set either chrome or firefox to true")
+    STY.getStuff()
+    STY.getLinks()
+    STY.downloadLinks()
+except:
+    print("Please change your .ini file and set either chrome or firefox to true")
+
+
+
