@@ -1,11 +1,14 @@
 import smtplib
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
-fromaddr=input("Enter the sender's email address:")
-password=input("Enter the sender's email password:")
-toaddr=input("Enter the target email:")
-subject=input("Enter the subject:")
-body=input("Enter the message:")
+import configparser as cp
+config = cp.ConfigParser()
+config.read("EmailToEmailSpam.ini")
+fromaddr=str(config['SETTINGS']['fromaddress'])
+password=str(config['SETTINGS']['emailpassword'])
+toaddr=str(config['SETTINGS']['targetaddress'])
+subject=str(config['SETTINGS']['subject'])
+body=str(config['SETTINGS']['body'])
 
 l=0
 while True:
