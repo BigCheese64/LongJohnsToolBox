@@ -81,7 +81,7 @@ print(linklist)
 b=0
 for i in linklist:
     b+=1        
-    if b>=82:
+    if b>=0:
         print(i)
         if i!=[]:
             print(i[0])
