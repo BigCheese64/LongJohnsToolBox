@@ -19,9 +19,6 @@ class linkTableInfo(object):
     def row_data(self,rowcount):
         text=[]
         for row_number in range(rowcount):
-            #/html/body/div[1]/div[5]/div[1]/div[2]/div[2]/div[2]/table/tbody/tr[3]/td[1]/a
-            #/html/body/div[1]/div[5]/div[1]/div[2]/div[2]/div[2]/table/tbody/tr[3]/td[1]/a
-            #/html/body/div[1]/div[5]/div[1]/div[2]/div[2]/div[2]/table/tbody/tr[4]/td[1]/a
             try:
                 row_number = row_number+2
                 row = self.table.find_elements_by_xpath("//tr["+str(row_number)+"]/td[1]/a")
@@ -38,8 +35,6 @@ class linkTableInfo(object):
         return(text)
 
 def saveImages(driver,mangaName,pgnum):
-    #/html/body/div[1]/div[4]/div[9]/p[1]/img
-    #/html/body/div[1]/div[4]/div[9]/p[2]/img
     images=driver.find_elements_by_tag_name('p')
     print(len(images))
     for i in range(len(images)-2):
@@ -58,7 +53,15 @@ def saveImages(driver,mangaName,pgnum):
     return(pgnum)
 startpage=input("Please paste the url of the kissmanga chapter selection page:")
 mangaName=input('What is the name of the manga you are downloading:')
-
+b=input("If the program crashed please enter the last number printed otherwise press enter.")
+if b!="":
+    try:
+        b=(int)b
+    except:
+        print("Start page must be a number!")
+        b=-1
+else:
+    b=0
 driver=webdriver.Firefox()
 driver.get(startpage)
 linklist=[]
@@ -78,13 +81,12 @@ while linklist==[]:
     time.sleep(1)
 linklist.reverse()
 print(linklist)
-b=0
 for i in linklist:
     b+=1        
     if b>=0:
         print(i)
         if i!=[]:
-            print(i[0])
+            print(b)
             driver.get(i[0])
             while True:
                 try:
