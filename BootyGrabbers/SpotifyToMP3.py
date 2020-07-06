@@ -1,12 +1,9 @@
-from selenium import webdriver
 import time
-import os
 import configparser as cp
-
+from BGparent import browserSelect
 class spotifyToYoutube():
     def __init__(self,d,conf):
         self.driver=d
-        self.directory=conf['SETTINGS']['Download Directory']
         self.playlist=conf['SETTINGS']['Playlist']
         self.driver.get(self.playlist)
 
@@ -51,18 +48,14 @@ class spotifyToYoutube():
 
 config = cp.ConfigParser()
 config.read("SpotifyToMP3.ini")
-try:
-    if bool(config['SETTINGS']['firefox']):
-	STY=spotifyToYoutube(webdriver.Firefox(),config)
-    elif bool(config['SETTINGS']['chrome']):
-	STY=spotifyToYoutube(webdriver.Chrome(),config)
-    else:
-	print("Please change your .ini file and set either chrome or firefox to true")
+bselect=browserSelect()
+driver=bselect.returnDriver()
+if driver != None:
+    STY=spotifyToYoutube(driver, config)
     STY.getStuff()
     STY.getLinks()
     STY.downloadLinks()
-except:
-    print("Please change your .ini file and set either chrome or firefox to true")
+
 
 
 

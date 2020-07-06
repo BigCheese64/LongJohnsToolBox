@@ -7,9 +7,10 @@ Created on Thu Apr  9 09:49:33 2020
 """
 import time
 import urllib.request
-from selenium import webdriver
+from BGparent import browserSelect
 import os
-#from selenium import webTable 
+import configparser as cp
+
 class linkTableInfo(object):
     def __init__(self,webTable):
         self.table=webTable
@@ -51,49 +52,49 @@ def saveImages(driver,mangaName,pgnum):
             urllib.request.urlretrieve(src,mangaName+"/page"+str(pgnum))
         
     return(pgnum)
-startpage=input("Please paste the url of the kissmanga chapter selection page:")
-mangaName=input('What is the name of the manga you are downloading:')
+config = cp.ConfigParser()
+config.read("mangaRipper.ini")
+startpage=str(config['SETTINGS']['kissmangaurl'])
+mangaName=str(config['SETTINGS']['manganame'])
 b=input("If the program crashed please enter the last number printed otherwise press enter.")
 if b!="":
     try:
-        b=(int)b
+        b=int(b)
     except:
         print("Start page must be a number!")
         b=-1
 else:
     b=0
-driver=webdriver.Firefox()
-driver.get(startpage)
-linklist=[]
-loaded=0
-i=0
-os.system('mkdir '+mangaName)
-pgnum=1831
-
-while loaded==0:
+bselect=browserSelect()
+driver=bselect.returnDriver()
+if driver != None:
+    driver.get(startpage)
+    linklist=[]
+    loaded=0
+    i=0
+    os.system('mkdir '+mangaName)
+    pgnum=1831
+    
+    while loaded==0:
+        time.sleep(1)
+        loaded=(linkTableInfo(driver).get_row_count())
     time.sleep(1)
-    loaded=(linkTableInfo(driver).get_row_count())
-time.sleep(1)
-while linklist==[]:    
-    i+=1
-    linklist=linkTableInfo(driver).row_data(loaded)
-    print(i)
-    time.sleep(1)
-linklist.reverse()
-print(linklist)
-for i in linklist:
-    b+=1        
-    if b>=0:
-        print(i)
-        if i!=[]:
-            print(b)
-            driver.get(i[0])
-            while True:
-                try:
-                    pgnum=saveImages(driver,mangaName,pgnum)
-                    break
-                except:
-                    loop=True
-
-driver.close()
+    while linklist==[]:    
+        i+=1
+        linklist=linkTableInfo(driver).row_data(loaded)
+        time.sleep(1)
+    linklist.reverse()
+    for i in linklist:
+        b+=1        
+        if b>=0:
+            if i!=[]:
+                print(b)
+                driver.get(i[0])
+                while True:
+                    try:
+                        pgnum=saveImages(driver,mangaName,pgnum)
+                        break
+                    except:
+                        loop=True
+    driver.close()
     
