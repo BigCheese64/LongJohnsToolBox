@@ -6,7 +6,7 @@ Created on Thu Apr  9 09:49:33 2020
 @author: root
 """
 import time
-import urllib.request
+import urllib.request #not sure if this is a native lib so if it no work try installing
 from BGparent import browserSelect
 import os
 import configparser as cp
@@ -15,14 +15,14 @@ class linkTableInfo(object):
     def __init__(self,webTable):
         self.table=webTable
     def get_row_count(self):
-        return len(self.table.find_elements_by_tag_name("tr")) - 1
+        return len(self.table.find_elements_by_tag_name("tr")) - 1 #returns the number of chapter links
 
     def row_data(self,rowcount):
         text=[]
         for row_number in range(rowcount):
             try:
                 row_number = row_number+2
-                row = self.table.find_elements_by_xpath("//tr["+str(row_number)+"]/td[1]/a")
+                row = self.table.find_elements_by_xpath("//tr["+str(row_number)+"]/td[1]/a") #gets all of the links as elements
                 rData = []
                 print(len(row))
                 for webElement in row :
