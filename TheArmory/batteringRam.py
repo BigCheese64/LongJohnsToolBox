@@ -107,6 +107,7 @@ class BatteringRamSama():
                 save=open("lastPassword.txt",'w')
                 save.write(password)
                 save.close()
+                print("Attempt "+i)
             else:
                 password=f.readline()
                 if password==self.lastPassword:
