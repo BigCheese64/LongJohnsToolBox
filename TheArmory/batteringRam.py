@@ -57,6 +57,7 @@ class BatteringRamSama():
         i=0
         foundLastPassword=False
         startTime=int(calendar.timegm(time.gmtime()))
+        passwordAttempts=0
         while password!="":
             if self.lastPassword=="" or foundLastPassword:
                 counter+=1
@@ -72,6 +73,7 @@ class BatteringRamSama():
                         badConn=True
                         self.proxyAddresses.remove(self.proxyAddresses[i])
                         self.proxyPorts.remove(self.proxyPorts[i])
+                        counter+=self.changeProxy
                     counter=0
                     first=False
                     i+=1                
@@ -85,6 +87,7 @@ class BatteringRamSama():
                 
                 if not badConn:
                     password=f.readline()
+                    passwordAttempts+=1
                     try:
                         usernameEle=self.driver.find_element_by_xpath(self.usernameXpath)
                         passwordEle=self.driver.find_element_by_xpath(self.passwordXpath)
@@ -105,7 +108,7 @@ class BatteringRamSama():
                     save=open("lastPassword.txt",'w')
                     save.write(password)
                     save.close()
-                    print("Attempt "+str(i))
+                    print("Attempt "+str(passwordAttempts))
             else:
                 password=f.readline()
                 if password==self.lastPassword:
