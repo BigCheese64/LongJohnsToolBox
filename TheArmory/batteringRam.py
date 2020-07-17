@@ -104,10 +104,10 @@ class BatteringRamSama():
                     except:
                         print(password)
                         break
-                save=open("lastPassword.txt",'w')
-                save.write(password)
-                save.close()
-                print("Attempt "+i)
+                    save=open("lastPassword.txt",'w')
+                    save.write(password)
+                    save.close()
+                    print("Attempt "+i)
             else:
                 password=f.readline()
                 if password==self.lastPassword:
