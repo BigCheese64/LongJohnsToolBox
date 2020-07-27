@@ -12,6 +12,21 @@ from getProxies import getProxies
 import configparser as cp
 import time
 import calendar
+import os
+
+def linuxNordVPN(i,usrname,passwd):
+    dir="cd /etc/openvpn/ovpn_tcp/"
+    os.system(dir+" && ls -al >> C://nordList.txt")
+    f=open("C://nordList.txt",'r')
+    vpnlist=[]
+    while True:
+        vpn=f.readline()
+        if vpn!="":
+            vpnlist.append(vpn)
+        else:
+            break
+     os.system("openvpn")
+    
 def changeProxy(PROXY_HOST,PROXY_PORT):
     fp = webdriver.FirefoxProfile()
     print (PROXY_PORT)
