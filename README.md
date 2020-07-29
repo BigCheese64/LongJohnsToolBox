@@ -5,7 +5,7 @@ SpotifyToMP3 - Pretty self explanatory, gets the song names and artists of all t
 MangaDownloader - Downloads all avilable chapters of a manga from kissmanga.com into a file of images for reading offline<br/>
 EmailSpam - Repeatedly sends emails to a target address until gmail decides that it doesn't like you and crashes the program after like 120 emails (requires enabling less secure apps in the sender's email, see email spams README for more details or just look up how to do it)<br/>
 SignUp - Signs target email up for very annoying newsletters from multiple sites (still a work in progress)<br/>
-BatteringRam - Standard web brute force program. Switches between many free proxies. Lots of options<br/>
+BatteringRam - Standard web brute force program. Switches between many free proxies. Lots of options including using nordVPN servers<br/>
 # Dependencies:
 Most of the python programs require the following:<br/>
 Python 2.7 or 3.x (duh) www.python.org<br/>
