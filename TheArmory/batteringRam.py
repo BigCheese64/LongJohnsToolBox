@@ -16,8 +16,8 @@ import calendar
 import os
 
 def linuxNordVPN(i,usrname,passwd):
-    dir="cd /etc/openvpn/ovpn_tcp/"
-    os.system(dir+" && ls -al >> C://nordList.txt")
+    proxyDir="cd /etc/openvpn/ovpn_tcp/"
+    os.system(proxyDir+" && ls -al >> C://nordList.txt")
     f=open("C://nordList.txt",'r')
     vpnlist=[]
     while True:
